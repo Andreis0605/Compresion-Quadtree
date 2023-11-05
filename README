@@ -80,5 +80,3 @@ Functia parcurgere_arbore_c2 parcurge arborele pentru a-l afisa. Aceasta
 foloseste o coada pentru a parcurge arborele. Daca nodul din coada este de tip 
 1, atunci doar il afiseaza in fisier. Daca este de tip 0, atunci adauga in 
 coada toti cei patru fii ai acelui nod si il afiseaza in fisier.
-
-12p pe local
