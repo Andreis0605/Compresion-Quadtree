@@ -1,0 +1,84 @@
+Arbore de compresie cuaternar
+
+Folosesc 3 fisiere in care am declarat functiile pe care le voi folosi in
+program si un header in care sunt declarate tipurile de date folosite in program
+
+-calculations.c - in care calculez media culorilor si mesia unei zone
+-reading.c - in care exista functia de citire a unei poze
+-tree.c - in care exista functiile de generare si parcurgere a arborelui
+          de compresie
+-data.h - in care sunt declarate tipurile de date folosite in program
+
+In main.c:
+
+Programul decide care dintre cerinte va fi rezolvata.
+
+Pentru cerinta 1 va citi argumentele din linia de comanda, apoi va citi imaginea
+Dupa aceea, initializeaza arborele de compresie si il construieste. La final,
+initilizeaza coada de parcurgere si parcurge arborele pentru a calcula datele
+cerute la cerinta 1.
+
+Pentru cerinta 2 va citi argumentele din linia de comanda, apoi va citi imaginea
+Dupa aceea, initializeaza arborele de compresie si il construieste. La final,
+initilizeaza coada de parcurgere si parcurge arborele pentru a-l afisa.
+
+In data.h:
+
+Sunt declaratre tipurile de date folosite pe parcursul programului:
+
+-structura care va retine pixelii din imagine
+-structura care va retine toate datele despre imaginea data
+-structura folosita ca nod in arborele de compresie
+-structura care retine radacina arborelui de compresie
+-structura care este folosita pentru un nod din coada de parcurgere
+-structura care retine coada de parcurgere
+
+In reading.c:
+
+Functia read_ppm citeste un fisier PPM si il stocheaza intr-o structura de tip
+IMAGE. Aceasta citeste la inceput zona text a fisierului. Apoi aloca memorie 
+pentru o matrice de pixeli si citeste aceasta matrice din fisier.
+
+In calculations.c:
+
+Functia average_red primeste o zona din matricea de pixeli(coltul din stanga 
+sus si dimensiunea) si calculeaza valoarea medie a culorii rosie din acea zona 
+a matricei.
+
+Functia average_green primeste o zona din matricea de pixeli(coltul din stanga 
+sus si dimensiunea) si calculeaza valoarea medie a culorii verde din acea zona 
+a matricei.
+
+Functia average_blue primeste o zona din matricea de pixeli(coltul din stanga 
+sus si dimensiunea) si calculeaza valoarea medie a culorii albastre din acea 
+zona a matricei.
+
+Functia calculate_mean primeste o zona din matricea de pixeli(coltul din stanga 
+sus si dimensiunea) si calculeaza media acestei zone dupa formula din enunt.
+
+In tree.c:
+
+Functia init_coada_parcurgere initializeaza coada de parcurgere, punand radacina
+arborelui de compresie ca fiind primul element din coada.
+
+Functia init_tree initializeaza arborele de compresie, creand radacina acestuia.
+
+Functia create_tree construieste arborele de parcurgere. Aceasta primeste
+initial radacina arborelui. Dupa aceea, calculeaza valorea medie a zonei din
+imagine pentru care a fost apelata(la inceput zona este intreaga imagine).
+Daca media este mai mica sau egala cu factorul primit in linia de comanda,
+atunci retine aceasta zona in arbore. Daca media este mai mare, functia imparte
+zona in 4 zone egale si se autoapeleaza pentru zonele respective.
+
+Functia parcurgere_arbore_c1 parcurge arborele pentru a calcula informatiile
+necesare la cerinta 1. Aceasta foloseste o coada pentru a parcurge arborele.
+Daca nodul din coada este de tip 1, atunci calculeaza valorile din cerinta. Daca
+este de tip 0, atunci adauga in coada toti cei patru fii ai acelui nod. La
+final, afiseaza datele calculate despre arbore.
+
+Functia parcurgere_arbore_c2 parcurge arborele pentru a-l afisa. Aceasta 
+foloseste o coada pentru a parcurge arborele. Daca nodul din coada este de tip 
+1, atunci doar il afiseaza in fisier. Daca este de tip 0, atunci adauga in 
+coada toti cei patru fii ai acelui nod si il afiseaza in fisier.
+
+12p pe local
