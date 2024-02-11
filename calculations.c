@@ -14,7 +14,6 @@ unsigned int avereage_red(IMAGE *pic, int x, int y, int size)
     return (unsigned int)(s / (size * size));
 }
 
-
 //functie care calculeaza valoarea medie 
 //a pixelilor verzi dintr-o zona din imagine
 unsigned int avereage_green(IMAGE *pic, int x, int y, int size)
