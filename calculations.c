@@ -5,7 +5,8 @@
 
 //functie care calculeaza valoarea medie 
 //a pixelilor rosii dintr-o zona din imagine
-unsigned int avereage_red(IMAGE *pic, int x, int y, int size)
+
+double avereage_red(IMAGE *pic, int x, int y, int size)
 {
     unsigned long long i, j, s = 0;
     for (i = x; i < x + size; i++)
@@ -16,7 +17,7 @@ unsigned int avereage_red(IMAGE *pic, int x, int y, int size)
 
 //functie care calculeaza valoarea medie 
 //a pixelilor verzi dintr-o zona din imagine
-unsigned int avereage_green(IMAGE *pic, int x, int y, int size)
+double avereage_green(IMAGE *pic, int x, int y, int size)
 {
     unsigned long long i, j, s = 0;
     for (i = x; i < x + size; i++)
@@ -27,7 +28,7 @@ unsigned int avereage_green(IMAGE *pic, int x, int y, int size)
 
 //functie care calculeaza valoarea medie 
 //a pixelilor albastrii dintr-o zona din imagine
-unsigned int avereage_blue(IMAGE *pic, int x, int y, int size)
+double avereage_blue(IMAGE *pic, int x, int y, int size)
 {
     unsigned long long i, j, s = 0;
     for (i = x; i < x + size; i++)
@@ -38,7 +39,7 @@ unsigned int avereage_blue(IMAGE *pic, int x, int y, int size)
 
 //functie care care calculeaza valoarea medie a unei zone din imagine
 //dupa formula din enunt
-unsigned long long calculate_mean(IMAGE *pic, int x, int y, int size)
+double calculate_mean(IMAGE *pic, int x, int y, int size)
 {
     int i, j;
     unsigned long long sum = 0;

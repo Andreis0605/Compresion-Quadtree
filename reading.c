@@ -46,12 +46,4 @@ void read_ppm(IMAGE *pic, FILE *fin)
             pic->img[i][j].b = aux;
         }
     }
-    /*for (i = 0; i < pic->height; i++)
-    {
-        for (j = 0; j < pic->width; j++)
-        {
-            fprintf(fout,"%d %d %d  ", pic->img[i][j].r, pic->img[i][j].g,pic->img[i][j].b);
-        }
-        fprintf(fout,"\n");
-    }*/
 }

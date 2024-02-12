@@ -31,7 +31,7 @@ void init_tree(TREE *root)
 }
 
 // functie care creeaza arborele de compresie
-void create_tree(IMAGE *pic, NOD *root, int nivel, int x, int y, int size, unsigned long long factor)
+void create_tree(IMAGE *pic, NOD *root, int nivel, int x, int y, int size, double factor)
 {
     unsigned long long mean;
 
@@ -114,105 +114,6 @@ void create_tree(IMAGE *pic, NOD *root, int nivel, int x, int y, int size, unsig
         create_tree(pic, root->ll, nivel + 1, x, y + (size / 2),
                     size / 2, factor);
     }
-}
-
-// functie care parcurge arborele si calculeaza informatiile pentru cerinta 1
-// folosim o coada de parcurgere in care retinem un pointer catre nodul
-// pentru care calculam la un moment dat
-void parcurgere_abore_c1(QUEUE *coada, FILE *write, int size)
-{
-    // initializam variabilelel in care calculam informatiile
-    int max_depth = -1, max_area = -1, nr_area = 0;
-
-    // incepem parcurgerea
-    while (coada->first != NULL)
-    {
-        if (coada->first->elem->type == 1)
-        {
-            // daca nodul este de tip 1, atunci calculam date despre arbore
-            if (coada->first->elem != NULL)
-                nr_area++;
-            if (coada->first->elem->depth > max_depth)
-                max_depth = coada->first->elem->depth;
-            if (max_area == -1)
-                max_area = coada->first->elem->depth;
-        }
-        else
-        {
-            // daca nodul este de tip 0, atunci adaugam in coada
-            // nodurile de pe nivelul urmator
-            NOD_PARCURGERE *aux_ul, *aux_ur, *aux_ll, *aux_lr;
-
-            // alocam memorie pentru un nod din coada de parcurgere si
-            // il adaugam la finalul cozii
-            aux_ur = malloc(sizeof(NOD_PARCURGERE));
-            if (aux_ur == NULL)
-            {
-                printf("Nu s-a putut aloca memorie pentru un nod din coada");
-                printf("de parcurgere");
-                exit(1);
-            }
-            aux_ur->elem = coada->first->elem->ur;
-            aux_ur->prev = coada->last;
-            aux_ur->next = NULL;
-            coada->last->next = aux_ur;
-            coada->last = coada->last->next;
-
-            // alocam memorie pentru un nod din coada de parcurgere si
-            // il adaugam la finalul cozii
-            aux_ul = malloc(sizeof(NOD_PARCURGERE));
-            if (aux_ul == NULL)
-            {
-                printf("Nu s-a putut aloca memorie pentru un nod din coada");
-                printf("de parcurgere");
-                exit(1);
-            }
-            aux_ul->elem = coada->first->elem->ul;
-            aux_ul->prev = coada->last;
-            aux_ul->next = NULL;
-            coada->last->next = aux_ul;
-            coada->last = coada->last->next;
-
-            // alocam memorie pentru un nod din coada de parcurgere si
-            // il adaugam la finalul cozii
-            aux_ll = malloc(sizeof(NOD_PARCURGERE));
-            if (aux_ll == NULL)
-            {
-                printf("Nu s-a putut aloca memorie pentru un nod din coada");
-                printf("de parcurgere");
-                exit(1);
-            }
-            aux_ll->elem = coada->first->elem->ll;
-            aux_ll->prev = coada->last;
-            aux_ll->next = NULL;
-            coada->last->next = aux_ll;
-            coada->last = coada->last->next;
-
-            // alocam memorie pentru un nod din coada de parcurgere si
-            // il adaugam la finalul cozii
-            aux_lr = malloc(sizeof(NOD_PARCURGERE));
-            if (aux_lr == NULL)
-            {
-                printf("Nu s-a putut aloca memorie pentru un nod din coada");
-                printf("de parcurgere");
-                exit(1);
-            }
-            aux_lr->elem = coada->first->elem->lr;
-            aux_lr->prev = coada->last;
-            aux_lr->next = NULL;
-            coada->last->next = aux_lr;
-            coada->last = coada->last->next;
-        }
-        //trecem la urmatorul element din coada
-        coada->first = coada->first->next;
-    }
-
-    //generam puterea lui 2 pentru a afla cea mai mare zona nedivizata
-    int two_pow = 1;
-    two_pow = two_pow << (max_area);
-
-    //afisam informatiile
-    fprintf(write, "%d\n%d\n%d\n", max_depth + 1, nr_area, size / two_pow);
 }
 
 // functie care parcurge arborele si calculeaza informatiile pentru cerinta 2
