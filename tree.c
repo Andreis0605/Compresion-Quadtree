@@ -30,96 +30,76 @@ void init_tree(TREE *root)
     root->radacina = aux;
 }
 
-// functie care creeaza arborele de compresie
-void create_tree(IMAGE *pic, NOD *root, int nivel, int x, int y, int size, double factor)
+void create_tree(IMAGE *pic, NOD *current, int nivel, int x, int y, int size, double factor)
 {
-    unsigned long long mean;
-
-    // calculam media zonei din matrice la care suntem
+    // calculating the mean color factor
+    double mean;
     mean = calculate_mean(pic, x, y, size);
-    // printf("%lld ", mean);
-    // if (root != NULL)
-    //{
 
     if (mean <= factor || size == 1)
     {
-        // daca media unei zone este mai mica decat factorul primit ca argument
-        // sau daca zona are dimensiunea 1, tunci adaugam un nod de tip 1
-        root->type = 1;
-        root->r = avereage_red(pic, x, y, size);
-        root->g = avereage_green(pic, x, y, size);
-        root->b = avereage_blue(pic, x, y, size);
-        root->ur = NULL;
-        root->ul = NULL;
-        root->ll = NULL;
-        root->lr = NULL;
-        root->depth = nivel;
+        // add a new noded in the compresion tree
+        current->type = 1;
+        current->r = avereage_red(pic, x, y, size);
+        current->g = avereage_green(pic, x, y, size);
+        current->b = avereage_blue(pic, x, y, size);
+        current->ur = NULL;
+        current->ul = NULL;
+        current->ll = NULL;
+        current->lr = NULL;
+        current->depth = nivel;
     }
     else
     {
-        // daca nu se intampla nici o conditie din cele de mai sus
-        // adaugam un nod de tip 0, divizand zona curenta in 4 zone egale
-        root->type = 0;
-        root->depth = nivel;
+        // divide the image further
+        current->type = 0;
+        current->depth = nivel;
         NOD *aux_ur, *aux_ul, *aux_ll, *aux_lr;
 
-        // alocam memorie pentru un nod care va retine zona din stanga sus
         aux_ul = malloc(sizeof(NOD));
         if (aux_ul == NULL)
         {
-            printf("Nu s-a putut aloca pentru un nod din arbore");
+            printf("Failed to allocate memory");
             exit(1);
         }
-        root->ul = aux_ul;
+        current->ul = aux_ul;
 
-        // apelam functia pentru zona din stanga sus
-        create_tree(pic, root->ul, nivel + 1, x, y, size / 2, factor);
-
-        // alocam memorie pentru un nod care va retine zona din dreapta sus
         aux_ur = malloc(sizeof(NOD));
         if (aux_ur == NULL)
         {
-            printf("Nu s-a putut aloca pentru un nod din arbore");
+            printf("Failed to allocate memory");
             exit(1);
         }
-        root->ur = aux_ur;
+        current->ur = aux_ur;
 
-        // apelam functia pentru zona din dreapta sus
-        create_tree(pic, root->ur, nivel + 1, x + (size / 2), y,
-                    size / 2, factor);
-
-        // alocam memorie pentru un nod care va retine zona din dreapta jos
         aux_lr = malloc(sizeof(NOD));
         if (aux_lr == NULL)
         {
-            printf("Nu s-a putut aloca pentru un nod din arbore");
+            printf("Failed to allocate memory");
             exit(1);
         }
-        root->lr = aux_lr;
+        current->lr = aux_lr;
 
-        // apelam functia pentru zona din dreapta jos
-        create_tree(pic, root->lr, nivel + 1, x + (size / 2), y + (size / 2),
-                    size / 2, factor);
-
-        // alocam memorie pentru un nod care va retine zona din dreapta jos
         aux_ll = malloc(sizeof(NOD));
         if (aux_ll == NULL)
         {
-            printf("Nu s-a putut aloca pentru un nod din arbore");
+            printf("Failed to allocate memory");
             exit(1);
         }
-        root->ll = aux_ll;
+        current->ll = aux_ll;
 
-        // apelam functia pentru zona din stanga jos
-        create_tree(pic, root->ll, nivel + 1, x, y + (size / 2),
-                    size / 2, factor);
+        // call the function for the new areas
+        create_tree(pic, current->ul, nivel + 1, x, y, size / 2, factor);
+        create_tree(pic, current->ur, nivel + 1, x + (size / 2), y, size / 2, factor);
+        create_tree(pic, current->lr, nivel + 1, x + (size / 2), y + (size / 2), size / 2, factor);
+        create_tree(pic, current->ll, nivel + 1, x, y + (size / 2), size / 2, factor);
     }
 }
 
 // functie care parcurge arborele si calculeaza informatiile pentru cerinta 2
 // folosim o coada de parcurgere pentru a traversa arborele
-void parcurgere_abore_c2(QUEUE *coada, FILE *write, unsigned int size)
-{   
+void parse_tree_compresion(QUEUE *coada, FILE *write, unsigned int size)
+{
     // incepem parcurgerea
     while (coada->first != NULL)
     {
@@ -195,7 +175,7 @@ void parcurgere_abore_c2(QUEUE *coada, FILE *write, unsigned int size)
             aux_lr->next = NULL;
             coada->last->next = aux_lr;
             coada->last = coada->last->next;
-            
+
             //afisam datele despre nodul de tip 0
             fwrite(&coada->first->elem->type, sizeof(unsigned char), 1, write);
         }

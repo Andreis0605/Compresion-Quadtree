@@ -36,9 +36,10 @@ int main(int argc, char **argv)
         IMAGE picture;
         read_ppm(&picture, fin);
 
-        // scriem in fisierul de iesire dimensiunea imaginii
+        // writing the size of the image in the binary file
         fwrite(&picture.height, sizeof(unsigned int), 1, fout);
         // printf("%d\n", picture.height);
+        //printf("%lf", calculate_mean(&picture,picture.height/2,0,picture.height/2));
 
         // initializam si construim arborele de compresie
         TREE arbore;
@@ -48,8 +49,7 @@ int main(int argc, char **argv)
         // initializam coada de parcurgere si parcurgem arborele de compresie
         QUEUE coada;
         init_coada_parcurgere(&coada, arbore.radacina);
-        parcurgere_abore_c2(&coada, fout, picture.height);
-        // init_coada_parcurgere(&coada, arbore.radacina);
+        parse_tree_compresion(&coada, fout, picture.height);
 
         // inchidem fisierele
         fclose(fin);
